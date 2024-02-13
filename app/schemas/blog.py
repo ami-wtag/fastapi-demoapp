@@ -27,7 +27,7 @@ class BlogCreate(BaseModel):
     title: str
     sub_title: str = None
     body: str
-    author: UUID4 = '57785471-bc81-4062-a621-15657ccc0a0c'
+    author: UUID4 = '8c8434bc-3ca0-47dd-a820-b2f27ce877a7'
 
     class Config:
         orm_mode = True

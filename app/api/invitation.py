@@ -8,7 +8,7 @@ from typing import List
 from app import models, schemas
 from app.db.base import get_db
 from app.db.crud import CRUDBase
-from app.services.oauth2 import get_current_user, get_current_user_authorization
+from app.services.oauth2 import get_current_user_info
 from app.utils.invitation import generate_invitation_token, confirm_invitation_token
 from app.services.mail import send_email_async
 from core.config import settings
@@ -22,7 +22,7 @@ invitation_crud = CRUDBase(model=models.Invitation)
 @invitation_router.get('')
 def get_invitations(
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user_authorization)
+    current_user = Depends(get_current_user_info)
 ) -> List[schemas.Invitation]:
     db_invitations = db.query(models.Invitation)
     return db_invitations
@@ -32,7 +32,7 @@ def get_invitations(
 async def invite(
     invitation_data: schemas.InvitationCreateRequest,
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user_authorization)
+    current_user = Depends(get_current_user_info)
 ):
     unique_token = generate_invitation_token(data=invitation_data)
     created_by = db.query(User).filter(User.email == current_user.email).first()
@@ -84,7 +84,7 @@ async def accept_invitation(
 async def resend_invitation(
     email: str,
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
+    current_user = Depends(get_current_user_info)
 ):
     invitation = db.query(models.Invitation).filter_by(email=email).first()
     

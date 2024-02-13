@@ -25,10 +25,24 @@ def verify_token(
     try:
         payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM])
         email: str = payload.get("sub")
-        user = db.query(User).filter(User.email == email).first()
         if email is None:
             raise credentials_exception
+        print('\n\n\n', email)
+        user = db.query(User).filter(User.email == email).first()
+        print('\n\n\n', user)
         return user
     except JWTError:
         raise credentials_exception
     
+
+def get_user(
+        token: str,
+        db: Session
+    ) -> schemas.TokenData:
+    try:
+        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM])
+        email: str = payload.get("sub")
+        user = db.query(User).filter(User.email == email).first()
+        return user
+    except JWTError:
+        raise Exception
