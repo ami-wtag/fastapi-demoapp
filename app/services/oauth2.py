@@ -1,9 +1,8 @@
-from fastapi import HTTPException, Request, status, Depends
+from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from app.services import token
-from app import schemas
 from app.db.base import engine
 from app.db.base import get_db
 
@@ -16,7 +15,7 @@ adapter = casbin_sqlalchemy_adapter.Adapter(engine)
 
 
 def get_current_user(
-    data, 
+    data,
     db
 ):
     credentials_exception = HTTPException(
@@ -28,15 +27,13 @@ def get_current_user(
     return ret
 
 
-def get_current_user_authorization(
-    request,  current_user
-):
+def get_current_user_authorization(request, current_user):
     enforcer = casbin.Enforcer("core/model.conf", adapter)
     sub = current_user.email
     dom = current_user.organization_name
     obj = request.url.path
     act = request.method
-    if not(enforcer.enforce(sub, dom, obj, act)):
+    if not (enforcer.enforce(sub, dom, obj, act)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Method not authorized for this user")

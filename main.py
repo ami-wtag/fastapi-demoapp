@@ -11,7 +11,7 @@ from app.models import Base
 from scheduler.invitation import invitation_scheduler
 from app.routes import router as api_router
 
-from middleware import casbin_auth_middleware
+from middleware import CustomAuthMiddleware
 
 
 @asynccontextmanager
@@ -28,9 +28,9 @@ app = FastAPI(lifespan=lifespan, debug=True)
 
 origins = ["*"]
 
-app.middleware("http")(casbin_auth_middleware)
+# app.middleware(CustomAuthMiddleware)
 
-# app.add_middleware(middleware_class=casbin_auth_middleware)
+app.add_middleware(middleware_class=CustomAuthMiddleware)
 
 app.add_middleware(
     CORSMiddleware,

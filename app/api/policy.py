@@ -12,22 +12,22 @@ policy_router = APIRouter(prefix='/policy', tags=['Policy'])
 policy_crud = CRUDBase(model=models.CasbinRule)
 
 
-@policy_router.post('', response_model=schemas.CasbinRolePolicy)
-def create_policy(
-    new_policy: schemas.CasbinRolePolicy,
-    db: Session = Depends(get_db),
-    current_user = Depends(get_current_user_info)
-):
-    new_policy.model_dump()
-    policy = policy_crud.create(db=db, obj_in=new_policy)
-    return policy
+# @policy_router.post('', response_model=schemas.CasbinRolePolicy)
+# def create_policy(
+#     new_policy: schemas.CasbinRolePolicy,
+#     db: Session = Depends(get_db),
+#     current_user = Depends(get_current_user_info)
+# ):
+#     new_policy.model_dump()
+#     policy = policy_crud.create(db=db, obj_in=new_policy)
+#     return policy
 
 
-@policy_router.delete('')
-def create_policy(
-    id: str,
-    db: Session = Depends(get_db),
-    current_user = Depends(get_current_user_info)
-):
-    policy_crud.remove(db=db, id=id)
-    return 'Deleted'
+# @policy_router.delete('')
+# def create_policy(
+#     id: str,
+#     db: Session = Depends(get_db),
+#     current_user = Depends(get_current_user_info)
+# ):
+#     policy_crud.remove(db=db, id=id)
+#     return 'Deleted'
