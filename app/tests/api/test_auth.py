@@ -137,9 +137,9 @@ def test_login_security_vulnerabilities(client, email, password):
 
 
 # Testing Rate Limiting (If Applicable)
-# def test_login_rate_limiting(client):
-#     for _ in range(10):  # Assuming rate limit is 5 attempts
-#         response = client.post(
-#             "api/login",
-#             json={"email": 'nonexistent@test.com', 'password': 'wrongpassword'})
-#     assert response.status_code == 429  # Assuming 429 Too Many Requests for rate limiting
+def test_login_rate_limiting(client):
+    for _ in range(10):  # Assuming rate limit is 5 attempts
+        response = client.post(
+            "api/login",
+            json={"email": 'nonexistent@test.com', 'password': 'wrongpassword'})
+    assert response.status_code == 429  # Assuming 429 Too Many Requests for rate limiting

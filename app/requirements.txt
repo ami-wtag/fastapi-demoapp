@@ -45,3 +45,4 @@ passlib
 databases[postgresql]
 faker
 factory-boy
+redis
