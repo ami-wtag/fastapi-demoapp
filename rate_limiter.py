@@ -6,7 +6,8 @@ from fastapi import HTTPException, status, Request
 
 class RateLimiter:
     def __init__(self, redis_host: str, redis_port: int):
-        self.redis_pool = redis.ConnectionPool(host=redis_host, port=redis_port, db=0, decode_responses=True)
+        self.redis_pool = redis.ConnectionPool(
+            host=redis_host, port=redis_port, db=0, decode_responses=True)
 
     def get_redis(self):
         return redis.Redis(connection_pool=self.redis_pool)
@@ -30,7 +31,7 @@ class RateLimiter:
         return results[1] > max_requests
 
 
-rate_limiter = RateLimiter('127.0.0.1', 6379)
+rate_limiter = RateLimiter('cache', 6379)
 
 def rate_limit(max_requests: int, window: int):
     def decorator(func):

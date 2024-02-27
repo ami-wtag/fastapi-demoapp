@@ -7,6 +7,7 @@ services:
     depends_on:
       - db
       - test-db
+      - cache
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db/db
       - TEST_DATABASE_URL=postgresql://postgres:postgres@test-db/test-db
@@ -27,6 +28,9 @@ services:
       - INVITATION_URL_SECRET_KEY=INVITATION_URL_SECRET_KEY_HERE
       - INVITATION_URL_SECURITY_PASSWORD_SALT=INVITATION_URL_SECURITY_PASSWORD_SALT_HERE
       - INVITATION_URL_MAX_AGE=172800
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=REDIS_PASSWORD_HERE
     build:
       context: .
       dockerfile: Dockerfile
@@ -54,7 +58,17 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=test-db
+  
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
 
 volumes:
   db:
   test-db:
+  cache:
