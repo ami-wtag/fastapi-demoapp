@@ -136,7 +136,7 @@ def test_login_security_vulnerabilities(client, email, password):
     assert response.status_code in [400, 422]  # Expecting failure status codes
 
 
-# # Testing Rate Limiting (If Applicable)
+# Testing Rate Limiting (If Applicable)
 # def test_login_rate_limiting(client):
 #     for _ in range(10):  # Assuming rate limit is 5 attempts
 #         response = client.post(

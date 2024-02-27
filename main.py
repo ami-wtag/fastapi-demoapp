@@ -20,9 +20,7 @@ async def lifespan(app: FastAPI):
     logger.info("Shutdown!!")
     logger.info("DB disconnected!!")
 
-
 app = FastAPI(lifespan=lifespan, debug=True)
-
 
 origins = ["*"]
 
